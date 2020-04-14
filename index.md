@@ -23,7 +23,8 @@
      5.金币：关卡，任务&活动，竞技场商店，地牢，金矿。
      6.竞技场勋章：竞技场胜利，赛季奖励。
      7.竞技场体力：自动回复。
-     8.普通体力：每天固定240+每日任务100+烤肉店72~120。    
+     8.普通体力：每天固定240+每日任务100+烤肉店72~120。
+     
 ### 从产出层面讲
  
     1.简单难度关卡：金币、木、石、铁+少量装备升星材料。
@@ -126,4 +127,157 @@ End Function
 
 ```
 
-### 这里决定了要循环到多少行，具体数量可根据公式在Excel中自动计算得出
+### 这里决定了要循环到多少行，具体数量可根据公式在Excel中自动计算得出。
+### 整体循环顺序为大循环为各关卡(自上而下)
+### 小循环为每关卡的掉落
+
+```markdown
+行 = 2
+For Checkpoint = 3 To Sheets("DropTable").Cells(2, 18)
+Num = 1
+
+```
+### 6-9列掉落设置为金币、木材、石头、铁，因此该部分为概率掉落
+
+```markdown
+For DropTable = 6 To 9
+If Sheets("ActualDrop").Cells(Checkpoint, DropTable) = "" Then
+
+Else
+Sheets("DropTable").Cells(行, 1) = 难度(Sheets("ActualDrop").Cells(Checkpoint, 1)) * 1000000 + 岛屿(Sheets("ActualDrop").Cells(Checkpoint, 2)) * 100000 + Sheets("ActualDrop").Cells(Checkpoint, 3) * 100 + Num
+Sheets("DropTable").Cells(行, 3) = 1
+Sheets("DropTable").Cells(行, 4) = 3
+Sheets("DropTable").Cells(行, 7) = 1
+Sheets("DropTable").Cells(行, 8) = Sheets("ActualDrop").Cells(1, DropTable)
+Sheets("DropTable").Cells(行, 9) = 99999999
+Sheets("DropTable").Cells(行, 10) = Sheets("ActualDrop").Cells(Checkpoint, DropTable)
+Sheets("DropTable").Cells(行, 11) = 1000
+行 = 行 + 1
+Num = Num + 1
+End If
+Next DropTable
+
+```
+
+### 11-13列掉落设置为1~3级强化石，且概率读取第10列，因此代码如下
+
+```markdown
+For DropTable = 11 To 13
+If Sheets("ActualDrop").Cells(Checkpoint, DropTable) = "" Then
+
+Else
+Sheets("DropTable").Cells(行, 1) = 难度(Sheets("ActualDrop").Cells(Checkpoint, 1)) * 1000000 + 岛屿(Sheets("ActualDrop").Cells(Checkpoint, 2)) * 100000 + Sheets("ActualDrop").Cells(Checkpoint, 3) * 100 + Num
+Sheets("DropTable").Cells(行, 3) = 1
+Sheets("DropTable").Cells(行, 4) = 2
+Sheets("DropTable").Cells(行, 7) = 1
+Sheets("DropTable").Cells(行, 8) = Sheets("ActualDrop").Cells(1, DropTable)
+Sheets("DropTable").Cells(行, 9) = 99999999
+Sheets("DropTable").Cells(行, 10) = Sheets("ActualDrop").Cells(Checkpoint, DropTable)
+Sheets("DropTable").Cells(行, 12) = Sheets("ActualDrop").Cells(Checkpoint, 10) * 100
+行 = 行 + 1
+Num = Num + 1
+End If
+Next DropTable
+
+```
+
+### 后面均同理
+
+```markdown
+For DropTable = 15 To 20
+If Sheets("ActualDrop").Cells(Checkpoint, DropTable) = "" Then
+
+Else
+Sheets("DropTable").Cells(行, 1) = 难度(Sheets("ActualDrop").Cells(Checkpoint, 1)) * 1000000 + 岛屿(Sheets("ActualDrop").Cells(Checkpoint, 2)) * 100000 + Sheets("ActualDrop").Cells(Checkpoint, 3) * 100 + Num
+Sheets("DropTable").Cells(行, 3) = 1
+Sheets("DropTable").Cells(行, 4) = 2
+Sheets("DropTable").Cells(行, 7) = 1
+Sheets("DropTable").Cells(行, 8) = Sheets("ActualDrop").Cells(1, DropTable)
+Sheets("DropTable").Cells(行, 9) = 99999999
+Sheets("DropTable").Cells(行, 10) = Sheets("ActualDrop").Cells(Checkpoint, DropTable)
+Sheets("DropTable").Cells(行, 12) = Sheets("ActualDrop").Cells(Checkpoint, 14) * 100
+行 = 行 + 1
+Num = Num + 1
+End If
+Next DropTable
+
+For DropTable = 22 To 27
+If Sheets("ActualDrop").Cells(Checkpoint, DropTable) = "" Then
+
+Else
+Sheets("DropTable").Cells(行, 1) = 难度(Sheets("ActualDrop").Cells(Checkpoint, 1)) * 1000000 + 岛屿(Sheets("ActualDrop").Cells(Checkpoint, 2)) * 100000 + Sheets("ActualDrop").Cells(Checkpoint, 3) * 100 + Num
+Sheets("DropTable").Cells(行, 3) = 1
+Sheets("DropTable").Cells(行, 4) = 2
+Sheets("DropTable").Cells(行, 7) = 1
+Sheets("DropTable").Cells(行, 8) = Sheets("ActualDrop").Cells(1, DropTable)
+Sheets("DropTable").Cells(行, 9) = 99999999
+Sheets("DropTable").Cells(行, 10) = Sheets("ActualDrop").Cells(Checkpoint, DropTable)
+Sheets("DropTable").Cells(行, 12) = Sheets("ActualDrop").Cells(Checkpoint, 21) * 100
+行 = 行 + 1
+Num = Num + 1
+End If
+Next DropTable
+
+For DropTable = 29 To 34
+If Sheets("ActualDrop").Cells(Checkpoint, DropTable) = "" Then
+
+Else
+Sheets("DropTable").Cells(行, 1) = 难度(Sheets("ActualDrop").Cells(Checkpoint, 1)) * 1000000 + 岛屿(Sheets("ActualDrop").Cells(Checkpoint, 2)) * 100000 + Sheets("ActualDrop").Cells(Checkpoint, 3) * 100 + Num
+Sheets("DropTable").Cells(行, 3) = 1
+Sheets("DropTable").Cells(行, 4) = 2
+Sheets("DropTable").Cells(行, 7) = 1
+Sheets("DropTable").Cells(行, 8) = Sheets("ActualDrop").Cells(1, DropTable)
+Sheets("DropTable").Cells(行, 9) = 99999999
+Sheets("DropTable").Cells(行, 10) = Sheets("ActualDrop").Cells(Checkpoint, DropTable)
+Sheets("DropTable").Cells(行, 12) = Sheets("ActualDrop").Cells(Checkpoint, 28) * 100
+行 = 行 + 1
+Num = Num + 1
+End If
+Next DropTable
+
+For DropTable = 36 To 41
+If Sheets("ActualDrop").Cells(Checkpoint, DropTable) = "" Then
+
+Else
+Sheets("DropTable").Cells(行, 1) = 难度(Sheets("ActualDrop").Cells(Checkpoint, 1)) * 1000000 + 岛屿(Sheets("ActualDrop").Cells(Checkpoint, 2)) * 100000 + Sheets("ActualDrop").Cells(Checkpoint, 3) * 100 + Num
+Sheets("DropTable").Cells(行, 3) = 1
+Sheets("DropTable").Cells(行, 4) = 2
+Sheets("DropTable").Cells(行, 7) = 1
+Sheets("DropTable").Cells(行, 8) = Sheets("ActualDrop").Cells(1, DropTable)
+Sheets("DropTable").Cells(行, 9) = 99999999
+Sheets("DropTable").Cells(行, 10) = Sheets("ActualDrop").Cells(Checkpoint, DropTable)
+Sheets("DropTable").Cells(行, 12) = Sheets("ActualDrop").Cells(Checkpoint, 35) * 100
+行 = 行 + 1
+Num = Num + 1
+End If
+Next DropTable
+
+```
+
+### 掉落包的部分，难点在于需要额外加通用掉落(装备兑换券)
+```markdown
+
+Sheets("DropTable").Cells(行, 1) = 难度(Sheets("ActualDrop").Cells(Checkpoint, 1)) * 10000 + 岛屿(Sheets("ActualDrop").Cells(Checkpoint, 2)) * 1000 + Sheets("ActualDrop").Cells(Checkpoint, 3)
+Sheets("DropTable").Cells(行, 2) = Sheets("DropTable").Cells(行 - Num + 1, 8)
+Sheets("DropTable").Cells(行, 3) = 2
+Sheets("DropTable").Cells(行, 4) = 4
+Sheets("DropTable").Cells(行, 7) = 1
+
+For DropTable = 1 To Num - 1
+
+If DropTable >= 2 Then
+Sheets("DropTable").Cells(行 - DropTable + 1, 2) = Sheets("DropTable").Cells(行 - DropTable + 1, 2) & "," & Sheets("DropTable").Cells(行 - Num + 1, 8)
+Else
+End If
+Sheets("DropTable").Cells(行, 8) = Sheets("DropTable").Cells(行 - Num + 1, 1)
+Sheets("DropTable").Cells(行, 12) = 100
+行 = 行 + 1
+
+If DropTable = (Num - 1) Then
+Sheets("DropTable").Cells(行, 8) = 1000000 + 难度(Sheets("ActualDrop").Cells(Checkpoint, 1))
+Sheets("DropTable").Cells(行, 12) = 1
+行 = 行 + 1
+Else
+End If
+Next DropTable
+```
